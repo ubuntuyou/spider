@@ -180,8 +180,9 @@ checkCollisionDone:
 
 compareToBkg:
     jsr getBGtype
-    cmp #$C0
-    bcc cpLeft
+;    cmp #$C0
+;    bcc cpLeft
+    bne cpLeft
     rts
 cpLeft:
     lda leftIsPressed
@@ -304,6 +305,8 @@ getBGtype:
 
     ldy spriteYpos
     lda (colPtr),y
-    sta BGtype
+    tax
+    lda colAtb,x
+;    sta BGtype
 getBGtypeDone:
     rts

@@ -14,6 +14,7 @@ columnBuff:
     lsr A
     lsr A
     tay
+    sty temp+1
 
     lda needUpdate      ; Check if needUpdate flag is set
     bne columnBuffDone  ; If not then skip
@@ -24,43 +25,45 @@ columnBuff:
     lda backgroundsHi,x
     sta bkgPtr+1
 
-    ldx #$00            ; Initialize X
+    ldx #$1E            ; Initialize X
 leftMetaColumn:
-    lda (bkgPtr),y      ; Load first metatile, Y holds column offset
-    sta columnBuffer,x  ; Store in buffer
+    lda (bkgPtr),y
+    tay
+    lda topLeft,y
+    sta columnBuffer2,x
+    dex
+    lda bottomLeft,y
+    sta columnBuffer2,x
+    lda temp+1
     clc
-    adc #$10            ; Add #$10 to A to get bottom left tile
-    inx
-    sta columnBuffer,x  ; and store in next buffer spot
-    lda bkgPtr          ; Load bkgPtr
+    adc #$10
+    sta temp+1
+    tay
+    dex
+    bne leftMetaColumn
+
+    tya
     clc
-    adc #$10            ; Add #$10 for next scroll+1 metatile
-    sta bkgPtr          ; Update bkgPtr
-    inx
-    cpx #$1E            ; Increment X and check if 30 tiles have been copied to buffer
-    bne leftMetaColumn  ; If not then repeat until true
-
-    ldx scroll+1
-    lda backgroundsLo,x
-    sta bkgPtr          ; Reset bkgPtr to process second half of meta column
-
-    ldx #$20            ; Select third row of buffer
+    adc #$10
+    sta temp+1
+    tay
+ 
+    ldx #$1E
 rightMetaColumn:
-    lda (bkgPtr),y      ; Load first metatile, Y holds column offset
+    lda (bkgPtr),y
+    tay
+    lda topRight,y
+    sta columnBuffer1,x
+    dex
+    lda bottomRight,y
+    sta columnBuffer1,x
+    lda temp+1
     clc
-    adc #$01            ; Add 1 for top right tile in metatile
-    sta columnBuffer,x  ; Store in buffer
-    clc
-    adc #$10            ; Add #$10 to get bottom right tile of metatile
-    inx
-    sta columnBuffer,x  ; and store in next buffer spot
-    lda bkgPtr          ; Load bkfPtr
-    clc
-    adc #$10            ; Add #$10 for next scroll+1 metatile
-    sta bkgPtr          ; Update bkgPtr
-    inx
-    cpx #$3E            ; Increment X and check if next 30 tiles have been copied to buffer
-    bne rightMetaColumn ; If not then repeat until true
+    adc #$10
+    sta temp+1
+    tay
+    dex
+    bne rightMetaColumn
 
     lda nametable       ; Load nametable
     eor #$01            ; Flip the first bit
@@ -94,7 +97,7 @@ updateColumn:
     sta PPU_Control     ; Set bit 2 of PPU_Control to increment PPU address by 32
 
     ldy #$02
-    ldx #$00            ; Initialise X for first row of buffer
+    ldx #$3C            ; Initialise X for first row of buffer
 @outerLoop
 
     lda PPU_Status
@@ -102,29 +105,29 @@ updateColumn:
     sta PPU_Address
     lda addrLo
     sta PPU_Address
-
+   
 @loop
     lda columnBuffer,x  ; Load first byte of column buffer
     sta PPU_Data        ; Store in $2007
-    inx
+    dex
     cpx columnCount     ; Increment X and check if equal to columnCount
     bne @loop           ; If not equal then repeat until true
-    inc columnCount
-    asl columnCount     ; Multiply columnCount by 2 for value of 60
+
+    lda #$00
+    sta columnCount
     inc addrLo          ; Increment addrLo for next nametable column
-    ldx #$20
     dey
     bne @outerLoop
 
     lda softPPU_Control
     sta PPU_Control     ; Clear bit 2 of PPU_Control to increment address by 1
 
-    dec needDraw          ; Clear needDraw flag
+    dec needDraw        ; Clear needDraw flag
 updateColumnDone:
     rts
     
 updateAttribs:
-    lda scroll            ; Load scroll
+    lda scroll          ; Load scroll
     cmp #$04
     bne updateAttribsDone
 

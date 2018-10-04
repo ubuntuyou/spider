@@ -39,7 +39,7 @@ addrLo          .dsb 1
 addrHi          .dsb 1    
 colLo           .dsb 1    
 colHi           .dsb 1    
-temp            .dsb 1    
+temp            .dsb 2
 
 buttons         .dsb 1    
 oldButtons      .dsb 1    
@@ -103,6 +103,8 @@ spriteOnes      .equ $0230
 spriteTens      .equ $0234
 spriteHundreds  .equ $0238
 columnBuffer    .equ $0100
+columnBuffer1   .equ $0100
+columnBuffer2   .equ $011E
 
 controller1     .equ $4016
 
@@ -507,6 +509,26 @@ attribsHi:
     .dh attribs0, attribs1, attribs2, attribs3, attribs4
     .dh attribs5, attribs6, attribs7, attribs8, attribs9
     .dh attribsA
+    
+;;;;;;;;;;;;;;;;;;;;;
+;;;   METATILES   ;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+    ;;;  00   01   02   03   04
+topLeft:
+    .db $EE, $EF, $00, $01, $02
+
+topRight:
+    .db $EE, $EF, $01, $02, $03
+
+bottomLeft:
+    .db $EE, $EF, $EF, $EF, $EF
+
+bottomRight:
+    .db $EE, $EF, $EF, $EF, $EF
+
+colAtb:
+    .db $00, $01, $01, $01, $01
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;   VECTORS   ;;;
