@@ -1,64 +1,3 @@
-;updateColTbl:
-;   lda scroll+1
-;   cmp #$0B
-;   beq updateColTblDone
-
-;   lda scroll            ; Load scroll value and divide by 16
-;   tay
-;   eor oldScroll
-;   and #%00010000
-;   beq @cont     ; updateColTblDone  ; If carry is set then scroll is not divisible by 16 so skip update
-;   lda #$00
-;   sta needCol
-;   rts
-;@cont
-;   tya
-;   lsr A
-;   lsr A
-;   lsr A
-;   lsr A
-;   tay                   ; Else, carry is clear and scroll is divisible by 16 so update column
-
-;    lda needCol
-;    beq updateColTblDone
-
-;   ldx scroll+1
-;   lda backgroundsLo,x
-;   sta bkgPtr
-;   lda backgroundsHi,x
-;   sta bkgPtr+1
-
-;   lda #$00
-;   sta colPtr
-;   lda #$06
-;   sta colPtr+1
-
-;   ldx #$00              ; Initialize X
-;@loop
-;   lda (bkgPtr),y        ; Load a byte from the scroll+1 (Y contains column offset)
-;   cmp #$C0
-;   bcc @one              ; If greater than #$CB then branch to .one
-;   lda #$00              ; Else, load #$00 (free movement tile)
-;   beq @next             ; and branch to next
-;@one
-;   lda #$01              ; Load A with #$01 (solid tile)
-;@next
-;   sta (colPtr),y        ; and store in the corresponding spot in collision table
-;   lda bkgPtr            ; Add 10 to bkgPtr to point to next byte in column
-;   clc
-;   adc #$10
-;   sta bkgPtr
-;   lda colPtr
-;   clc
-;   adc #$10
-;   sta colPtr            ; Also update colPtr
-;   inx
-;   cpx #$10              ; Check if 16 columns have been updated
-;   bne @loop             ; If not then repeat until it does
-;   dec needCol
-;updateColTblDone:
-;   rts
-
 checkCollision:
 left:
     lda leftIsPressed
@@ -180,8 +119,6 @@ checkCollisionDone:
 
 compareToBkg:
     jsr getBGtype
-;    cmp #$C0
-;    bcc cpLeft
     bne cpLeft
     rts
 cpLeft:
@@ -280,6 +217,7 @@ compareToBkgDone:
 getBGtype:
     ldx scroll+1
     lda spriteX
+
     clc
     adc scroll
     bcs +
@@ -307,6 +245,5 @@ getBGtype:
     lda (colPtr),y
     tax
     lda colAtb,x
-;    sta BGtype
 getBGtypeDone:
     rts

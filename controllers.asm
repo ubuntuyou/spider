@@ -130,16 +130,6 @@ readB:
     sta $4003
     dex
     bne readBdone
-
-;    inc scroll
-;    bne readBdone
-
-;    inc scroll+1
-;    lda softPPU_Control
-;    eor #$01
-;    sta softPPU_Control
-;    and #$01
-;    sta nametable
 readBdone:
     rts
 

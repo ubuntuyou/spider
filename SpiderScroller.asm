@@ -64,8 +64,6 @@ rightIsPressed  .dsb 1
 jumping         .dsb 1    
 velocity        .dsb 1    
 
-BGtype          .dsb 1    
-
 jumpForce       .dsb 1    
 jumpVelocity    .dsb 1    
 jumpVelocityMod .dsb 1    
