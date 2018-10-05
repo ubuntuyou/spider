@@ -40,6 +40,7 @@ addrHi          .dsb 1
 colLo           .dsb 1    
 colHi           .dsb 1    
 temp            .dsb 2
+colCtr          .dsb 1
 
 buttons         .dsb 1    
 oldButtons      .dsb 1    
@@ -62,7 +63,7 @@ leftIsPressed   .dsb 1
 rightIsPressed  .dsb 1    
 
 jumping         .dsb 1    
-velocity        .dsb 1    
+velocity        .dsb 1
 
 jumpForce       .dsb 1    
 jumpVelocity    .dsb 1    
@@ -448,7 +449,7 @@ NMIdone:
 palette:
     ;   BLK,WHT,LRd,DRd   BLK,DBL,LGr,DGr       BLK,WHT,LGr,DGr     BLK,DBL,RED,WHT
     .db $0F,$00,$07,$10,  $0F,$17,$19,$39,  $0F,$07,$1A,$29,  $0F,$0C,$16,$30   ;;background palette
-    .db $31,$27,$17,$07,  $0F,$20,$10,$00,  $0F,$1C,$15,$14,  $0F,$02,$38,$3C   ;;sprite palette
+    .db $21,$27,$17,$07,  $0F,$20,$10,$00,  $0F,$1C,$15,$14,  $0F,$02,$38,$3C   ;;sprite palette
 
 sprite:
     .db $7F,$00,$00,$40
@@ -511,22 +512,22 @@ attribsHi:
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   METATILES   ;;;
 ;;;;;;;;;;;;;;;;;;;;;
-
-    ;;;  00   01   02   03   04
+    ;;; sky  drt   -grass surf-    -----rocks-----    -bush-
+    ;;;  00   01   02   03   04   05   06   07   08   09   0A
 topLeft:
-    .db $EE, $EF, $00, $01, $02
+    .db $EE, $EF, $00, $01, $02, $FE, $42, $60, $62, $E4, $E6
 
 topRight:
-    .db $EE, $EF, $01, $02, $03
+    .db $EE, $EF, $01, $02, $03, $41, $43, $61, $63, $E5, $E7
 
 bottomLeft:
-    .db $EE, $EF, $EF, $EF, $EF
+    .db $EE, $EF, $EF, $EF, $EF, $FE, $52, $70, $72, $F4, $FE
 
 bottomRight:
-    .db $EE, $EF, $EF, $EF, $EF
+    .db $EE, $EF, $EF, $EF, $EF, $51, $53, $71, $73, $FE, $F7
 
 colAtb:
-    .db $00, $01, $01, $01, $01
+    .db $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;   VECTORS   ;;;

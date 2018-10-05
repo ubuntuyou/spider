@@ -1,3 +1,9 @@
+NToffset:
+    .db $24, $20
+    
+ATBoffset:
+    .db $27, $23
+
 columnBuff:
     lda scroll          ; Load scroll
     tay
@@ -47,7 +53,7 @@ leftMetaColumn:
     adc #$10
     sta temp+1
     tay
- 
+
     ldx #$1E
 rightMetaColumn:
     lda (bkgPtr),y
@@ -65,13 +71,9 @@ rightMetaColumn:
     dex
     bne rightMetaColumn
 
-    lda nametable       ; Load nametable
-    eor #$01            ; Flip the first bit
-    asl A
-    asl A
-    clc                 ; Multiply by 4 to get either 0 or 4
-    adc #$20            ; Add #$20 for either 20 or 24
-    sta addrHi          ; and store in addrHi
+    ldx nametable
+    lda NToffset,x
+    sta addrHi
 
     lda scroll          ; Load Scroll
     lsr A
@@ -131,12 +133,8 @@ updateAttribs:
     cmp #$04
     bne updateAttribsDone
 
-    lda nametable       ; Load nametable
-    eor #$01            ; Flip the first bit
-    asl A
-    asl A
-    clc                 ; Multiply by 4 to get either 0 or 4
-    adc #$23            ; Add #$20 for either 23 or 27
+    ldx nametable
+    lda ATBoffset,x
     sta colHi
 
     lda PPU_Status
