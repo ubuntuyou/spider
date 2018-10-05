@@ -3,10 +3,9 @@ left:
     lda leftIsPressed
     beq right
 
-    lda spriteV
-    clc
-    adc #$01
-    sta spriteY
+    ldx spriteV
+    inx
+    stx spriteY
     lda spriteH
     clc
     adc #$08
@@ -18,7 +17,7 @@ left:
     adc #$0F
     sta spriteY
     lda spriteH
-    clc
+;    clc
     adc #$07
     sta spriteX
     jmp compareToBkg
@@ -27,10 +26,9 @@ right:
     lda rightIsPressed
     beq up
 
-    lda spriteV
-    clc
-    adc #$01
-    sta spriteY
+    ldx spriteV
+    inx
+    stx spriteY
     lda spriteH
     clc
     adc #$18
@@ -42,7 +40,7 @@ right:
     adc #$0F
     sta spriteY
     lda spriteH
-    clc
+;    clc
     adc #$18
     sta spriteX
     jmp compareToBkg
@@ -51,30 +49,27 @@ up:
     lda upIsPressed
     beq down
 
-    lda spriteV
-    clc
-    adc #$01
-    sta spriteY
+    ldx spriteV
+    inx
+    stx spriteY
     lda spriteH
     clc
     adc #$08
     sta spriteX
     jsr compareToBkg
 
-    lda spriteV
-    clc
-    adc #$01
-    sta spriteY
+    ldx spriteV
+    inx
+    stx spriteY
     lda spriteH
     clc
     adc #$10
     sta spriteX
     jsr compareToBkg
 
-    lda spriteV
-    clc
-    adc #$01
-    sta spriteY
+    ldx spriteV
+    inx
+    stx spriteY
     lda spriteH
     clc
     adc #$18
@@ -90,7 +85,7 @@ down:
     adc #$0F
     sta spriteY
     lda spriteH
-    clc
+;    clc
     adc #$07
     sta spriteX
     jsr compareToBkg
@@ -100,7 +95,7 @@ down:
     adc #$0F
     sta spriteY
     lda spriteH
-    clc
+;    clc
     adc #$10
     sta spriteX
     jsr compareToBkg
@@ -110,7 +105,7 @@ down:
     adc #$0F
     sta spriteY
     lda spriteH
-    clc
+;    clc
     adc #$18
     sta spriteX
     jmp compareToBkg
@@ -129,17 +124,14 @@ cpLeft:
     and #$0F
     sta temp
     lda spriteH
-    tax
     sec
     sbc #$0A
     clc
     adc temp
     and #$0F
     eor #$0F
-    sta temp
-    txa
-    clc
-    adc temp
+;    clc
+    adc spriteH
     sta spriteH
     
     lda #$00
@@ -152,19 +144,16 @@ cpRight:
 
     lda scroll
     and #$0F
-    clc
     sta temp
     lda spriteH
-    tax
     clc
-    adc #$19
-    clc
+    adc #$18
+;    clc
     adc temp
     and #$0F
-    sta temp
-    txa
-    sec
-    sbc temp
+    eor #$FF
+;    clc
+    adc spriteH
     sta spriteH
     
     lda #$00
@@ -176,13 +165,10 @@ cpUp:
     beq cpDown
 
     lda spriteV
-    tay
     and #$0F
     eor #$0F
-    sta temp
-    tya
     clc
-    adc temp
+    adc spriteV
     sta spriteV
 
     lda #$00
@@ -197,14 +183,12 @@ cpDown:
     beq compareToBkgDone
 
     lda spriteV
-    tay
     clc
-    adc #$10
+    adc #$0F
     and #$0F
-    sta temp
-    tya
-    sec
-    sbc temp
+    eor #$FF
+;    clc
+    adc spriteV
     sta spriteV
 abortJump:
     lda #$00
@@ -227,21 +211,18 @@ getBGtype:
     lsr A
     lsr A
     sta spriteXpos
-    stx bkgColPtr
 
     lda spriteY
     and #$F0
     clc
     adc spriteXpos
-    sta spriteYpos
+    tay
 
-    ldx bkgColPtr
     lda backgroundsLo,x
     sta colPtr
     lda backgroundsHi,x
     sta colPtr+1
 
-    ldy spriteYpos
     lda (colPtr),y
     tax
     lda colAtb,x

@@ -348,13 +348,13 @@ loop:
     jsr MAINind
 
 showCPUusageBar:
-    ldx #%00011111  ; sprites + background + monochrome (i.e. WHITE)
+    ldx #%00011111   ; sprites + background + monochrome (i.e. WHITE)
     stx $2001
-    ldy #23  ; add about 23 for each additional line (leave it on WHITE for one scan line)
+    ldy #$17         ; add about 23 for each additional line (leave it on WHITE for one scan line)
 @loop
     dey
     bne @loop
-    dex    ; sprites + background + NO monochrome  (i.e. #%00011110)
+    dex              ; sprites + background + NO monochrome  (i.e. #%00011110)
     stx $2001
 
     jmp MAIN

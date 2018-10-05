@@ -150,11 +150,12 @@ updateAttribs:
     sta atbPtr+1
 
     ldy #$00
+    ldx #$40
 @loop
     lda (atbPtr),y      ; Load attribute byte
     sta PPU_Data
     iny
-    cpy #$40
+    dex
     bne @loop           ; If not #$00 then repeat until true
 updateAttribsDone:
     rts
