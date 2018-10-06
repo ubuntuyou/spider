@@ -101,9 +101,6 @@ spriteRAM       .equ $0200
 spriteOnes      .equ $0230
 spriteTens      .equ $0234
 spriteHundreds  .equ $0238
-columnBuffer    .equ $0100
-columnBuffer1   .equ $0100
-columnBuffer2   .equ $011E
 
 controller1     .equ $4016
 
@@ -448,7 +445,7 @@ NMIdone:
     .pad $E000
 palette:
     ;   BLK,WHT,LRd,DRd   BLK,DBL,LGr,DGr       BLK,WHT,LGr,DGr     BLK,DBL,RED,WHT
-    .db $0F,$00,$07,$10,  $0F,$17,$19,$39,  $0F,$07,$1A,$29,  $0F,$0C,$16,$30   ;;background palette
+    .db $0F,$00,$07,$10,  $0F,$17,$19,$39,  $0F,$17,$27,$36,  $0F,$0C,$16,$30   ;;background palette
     .db $21,$27,$17,$07,  $0F,$20,$10,$00,  $0F,$1C,$15,$14,  $0F,$02,$38,$3C   ;;sprite palette
 
 sprite:

@@ -3,6 +3,10 @@ NToffset:
     
 ATBoffset:
     .db $27, $23
+    
+;columnBuffer    = $0100
+;columnBuffer1   = $0100
+;columnBuffer2   = $011E
 
 columnBuff:
     lda scroll          ; Load scroll
@@ -31,15 +35,17 @@ columnBuff:
     lda backgroundsHi,x
     sta bkgPtr+1
 
+columnBuffer = $011E
+
     ldx #$1E            ; Initialize X
 leftMetaColumn:
     lda (bkgPtr),y
     tay
     lda topLeft,y
-    sta columnBuffer2,x
+    sta columnBuffer,x
     dex
     lda bottomLeft,y
-    sta columnBuffer2,x
+    sta columnBuffer,x
     lda temp+1
     clc
     adc #$10
@@ -54,15 +60,17 @@ leftMetaColumn:
     sta temp+1
     tay
 
+columnBuffer = $0100
+
     ldx #$1E
 rightMetaColumn:
     lda (bkgPtr),y
     tay
     lda topRight,y
-    sta columnBuffer1,x
+    sta columnBuffer,x
     dex
     lda bottomRight,y
-    sta columnBuffer1,x
+    sta columnBuffer,x
     lda temp+1
     clc
     adc #$10
@@ -98,6 +106,8 @@ updateColumn:
     eor #%00000100
     sta PPU_Control     ; Set bit 2 of PPU_Control to increment PPU address by 32
 
+columnBuffer = $0100
+
     ldy #$02
     ldx #$3C            ; Initialise X for first row of buffer
 @outerLoop
@@ -107,7 +117,7 @@ updateColumn:
     sta PPU_Address
     lda addrLo
     sta PPU_Address
-   
+
 @loop
     lda columnBuffer,x  ; Load first byte of column buffer
     sta PPU_Data        ; Store in $2007
@@ -150,12 +160,11 @@ updateAttribs:
     sta atbPtr+1
 
     ldy #$00
-    ldx #$40
 @loop
     lda (atbPtr),y      ; Load attribute byte
     sta PPU_Data
     iny
-    dex
+    cpy #$40
     bne @loop           ; If not #$00 then repeat until true
 updateAttribsDone:
     rts
