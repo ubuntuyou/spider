@@ -3,10 +3,6 @@ NToffset:
     
 ATBoffset:
     .db $27, $23
-    
-;columnBuffer    = $0100
-;columnBuffer1   = $0100
-;columnBuffer2   = $011E
 
 columnBuff:
     lda scroll          ; Load scroll

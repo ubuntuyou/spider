@@ -128,6 +128,7 @@ RESET:
     ldx #$FF
     txs
     inx
+    ldx #$00
     stx PPU_Control
     stx PPU_Mask
     stx $4010
@@ -445,7 +446,7 @@ NMIdone:
     .pad $E000
 palette:
     ;   BLK,WHT,LRd,DRd   BLK,DBL,LGr,DGr       BLK,WHT,LGr,DGr     BLK,DBL,RED,WHT
-    .db $0F,$00,$07,$10,  $0F,$17,$19,$39,  $0F,$17,$27,$36,  $0F,$0C,$16,$30   ;;background palette
+    .db $0F,$00,$07,$10,  $0F,$17,$28,$39,  $0F,$07,$1A,$3A,  $0F,$0C,$16,$30   ;;background palette
     .db $21,$27,$17,$07,  $0F,$20,$10,$00,  $0F,$1C,$15,$14,  $0F,$02,$38,$3C   ;;sprite palette
 
 sprite:
@@ -509,22 +510,30 @@ attribsHi:
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   METATILES   ;;;
 ;;;;;;;;;;;;;;;;;;;;;
-    ;;; sky  drt   -grass surf-    -----rocks-----    -bush-   jag   --jagR-   --jagL- tall grass
+    ;;; sky  drt   -grass surf-    -----rocks-----    -bush-   jag   --jagR-   --jagL-
     ;;;  00   01   02   03   04   05   06   07   08   09   0A   0B   0C   0D   0E   0F
 topLeft:
-    .db $EE, $EF, $00, $01, $01, $FE, $42, $60, $62, $E4, $E6, $EF, $EF, $28, $EF, $EF, $EE, $EE
+    .db $EE, $EF, $00, $01, $01, $FE, $12, $16, $1A, $E4, $E6, $EF, $EF, $EE, $EF, $EF
+    
+    ;;;  -weeds-
+    ;;;  10   11
+    .db $EE, $EE
 
 topRight:
-    .db $EE, $EF, $01, $01, $02, $41, $43, $61, $63, $E5, $E7, $EF, $EF, $EF, $EF, $2A, $EE, $EE
+    .db $EE, $EF, $01, $01, $02, $10, $14, $18, $1C, $E5, $E7, $EF, $EF, $EF, $EF, $EE
+    .db $EE, $EE
 
 bottomLeft:
-    .db $EE, $EF, $EF, $EF, $EF, $FE, $52, $70, $72, $F4, $FE, $07, $18, $38, $EF, $EF, $DB, $DC
+    .db $EE, $EF, $EF, $EF, $EF, $FE, $13, $17, $1B, $F4, $FE, $07, $09, $0A, $EF, $EF
+    .db $0D, $0E
 
 bottomRight:
-    .db $EE, $EF, $EF, $EF, $EF, $51, $53, $71, $73, $FE, $F7, $08, $EF, $EF, $1A, $3A, $DC, $DE
+    .db $EE, $EF, $EF, $EF, $EF, $11, $15, $19, $1D, $FE, $F7, $08, $EF, $EF, $0B, $0C
+    .db $0E, $0F
 
 colAtb:
-    .db $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $01, $01, $01, $01, $01, $00, $00
+    .db $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $01, $01, $01, $01, $01
+    .db $00, $00
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;   VECTORS   ;;;
