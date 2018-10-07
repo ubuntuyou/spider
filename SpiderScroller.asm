@@ -509,22 +509,22 @@ attribsHi:
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   METATILES   ;;;
 ;;;;;;;;;;;;;;;;;;;;;
-    ;;; sky  drt   -grass surf-    -----rocks-----    -bush-
-    ;;;  00   01   02   03   04   05   06   07   08   09   0A
+    ;;; sky  drt   -grass surf-    -----rocks-----    -bush-   jag   --jagR-   --jagL- tall grass
+    ;;;  00   01   02   03   04   05   06   07   08   09   0A   0B   0C   0D   0E   0F
 topLeft:
-    .db $EE, $EF, $00, $01, $02, $FE, $42, $60, $62, $E4, $E6
+    .db $EE, $EF, $00, $01, $01, $FE, $42, $60, $62, $E4, $E6, $EF, $EF, $28, $EF, $EF, $EE, $EE
 
 topRight:
-    .db $EE, $EF, $01, $02, $03, $41, $43, $61, $63, $E5, $E7
+    .db $EE, $EF, $01, $01, $02, $41, $43, $61, $63, $E5, $E7, $EF, $EF, $EF, $EF, $2A, $EE, $EE
 
 bottomLeft:
-    .db $EE, $EF, $EF, $EF, $EF, $FE, $52, $70, $72, $F4, $FE
+    .db $EE, $EF, $EF, $EF, $EF, $FE, $52, $70, $72, $F4, $FE, $07, $18, $38, $EF, $EF, $DB, $DC
 
 bottomRight:
-    .db $EE, $EF, $EF, $EF, $EF, $51, $53, $71, $73, $FE, $F7
+    .db $EE, $EF, $EF, $EF, $EF, $51, $53, $71, $73, $FE, $F7, $08, $EF, $EF, $1A, $3A, $DC, $DE
 
 colAtb:
-    .db $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00
+    .db $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $01, $01, $01, $01, $01, $00, $00
 
 ;;;;;;;;;;;;;;;;;;;
 ;;;   VECTORS   ;;;
