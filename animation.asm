@@ -71,7 +71,6 @@ animateSpritesDone:
     sta animationEnable
     rts
 
-
 displayScroll:
     lda scroll                ; Load scroll
     and #$0F                  ; Discard higer bits

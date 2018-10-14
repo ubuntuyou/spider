@@ -27,7 +27,7 @@ frameCounter    .dsb 2
 gameState       .dsb 1    
 
 
-nametable       .dsb 1    
+nametable       .dsb 1
 len             .dsb 1    
 needDraw        .dsb 1    
 needUpdate      .dsb 1    
@@ -389,7 +389,7 @@ NMIpause:
     rts
 
 NMIplaying:
-    frame:
+frame:
     inc frameCounter
     lda frameCounter
     and #$10
@@ -443,7 +443,8 @@ NMI:
     rti
 NMIdone:
 
-    .pad $E000
+;    .pad $FC00
+    .align $100
 palette:
     ;   BLK,WHT,LRd,DRd   BLK,DBL,LGr,DGr       BLK,WHT,LGr,DGr     BLK,DBL,RED,WHT
     .db $0F,$00,$07,$10,  $0F,$17,$28,$39,  $0F,$07,$1A,$3A,  $0F,$0C,$16,$30   ;;background palette
@@ -473,7 +474,6 @@ spriteAnim:
     .db $00,$00, $04,$00, $06,$00, $05,$00, $0D,$00, $0E,$00, $0F,$00, $14,$00 ; R2
 
     .db $00,$00, $07,$00, $08,$00, $09,$00, $15,$00, $16,$00, $17,$00, $18,$00 ; Jumping R
-
 
     .db $03,$40, $02,$40, $01,$40, $00,$40, $13,$40, $12,$40, $11,$40, $10,$40 ; L0
     .db $05,$40, $02,$40, $04,$40, $00,$40, $0C,$40, $0B,$40, $0A,$40, $10,$40 ; L1,L3
@@ -514,7 +514,7 @@ attribsHi:
     ;;;  00   01   02   03   04   05   06   07   08   09   0A   0B   0C   0D   0E   0F
 topLeft:
     .db $EE, $EF, $00, $01, $01, $FE, $12, $16, $1A, $E4, $E6, $EF, $EF, $EE, $EF, $EF
-    
+
     ;;;  -weeds-
     ;;;  10   11
     .db $EE, $EE
